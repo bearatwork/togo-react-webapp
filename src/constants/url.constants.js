@@ -1,0 +1,1 @@
+export const baseApiUrl = "https://todo-api.eastus.azurecontainer.io/api";
