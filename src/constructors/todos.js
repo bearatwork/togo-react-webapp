@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { todoService } from "../services";
 import { AuthConsumer } from '../AuthContext'
-import { AuthStore } from "../stores/auth.store";
 
 export default class Todos extends Component {
   constructor() {
@@ -9,7 +8,6 @@ export default class Todos extends Component {
     this.state = {
       newTodoDescription: "",
       todos: [],
-      username: AuthStore.getUserName()
     };
   }
 
@@ -28,12 +26,12 @@ export default class Todos extends Component {
     return (
       <div>
         <AuthConsumer>
-          {({ isAuth, login, logout }) => (
-              {isAuth :
+          {({ logout, username }) => (
+
                 <div className="header">
                   <ul>
                     <button onClick={logout}>logout</button>
-                    <div>{this.state.username}</div>
+                    <div>{username}</div>
                     <button
                       type="button"
                       className="btn btn-primary"
@@ -41,9 +39,8 @@ export default class Todos extends Component {
                       Logout
                     </button>
                   </ul>
-                </div>
-              }
-          )}
+                  </div>
+        )}
         </AuthConsumer>
 
         <div className="content-wrapper">

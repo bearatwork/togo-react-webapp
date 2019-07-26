@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { AuthProvider } from './AuthContext'
 
-import Login from "./constructors/login";
+import Login from "./constructors/loginWrapper";
 import Todos from "./constructors/todos";
 // import Header from "./constructors/header";
 
@@ -17,7 +17,7 @@ function App() {
       <AuthProvider>
         {/* <Header></Header> */}
         <Switch>
-          <Route exact path="/" component={Login} />
+          <Route exact path="/" component={Login}/>
           <ProtectedRoute path="/todos" component={Todos} />
         </Switch>
       </AuthProvider>

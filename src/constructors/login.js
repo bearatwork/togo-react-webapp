@@ -17,39 +17,32 @@ export default class Login extends Component {
     event.preventDefault();
     this.clearErrorMessage();
     const { username } = this.state;
-    try {
-      const user = await loginService.login(username);
-      AuthStore.updateState(user);
-      AuthConsumer.isAuth = true;
-      // this.setState({ toTodos: true });
-    } catch (err) {
-      this.setState({
-        errorMessage:
-          err.status === 401
-            ? "That user doesn't exist"
-            : "We had an issue, try again later"
-      });
-    }
+    const { login } = this.props;
+    login(username);
   }
 
   async createUser(event) {
     event.preventDefault();
     this.clearErrorMessage();
     const { username } = this.state;
-    try {
-      const user = await loginService.createUser(username);
-      AuthStore.updateState(user);
-      this.setState({
-        toTodos: true
-      });
-    } catch (err) {
-      this.setState({
-        errorMessage:
-          err.status === 400
-            ? "That username already exists"
-            : "We had an issue, try again later"
-      });
-    }
+    const { createUser } = this.props;
+    createUser(username);
+
+
+    // try {
+    //   const user = await loginService.createUser(username);
+    //   AuthStore.updateState(user);
+    //   this.setState({
+    //     toTodos: true
+    //   });
+    // } catch (err) {
+    //   this.setState({
+    //     errorMessage:
+    //       err.status === 400
+    //         ? "That username already exists"
+    //         : "We had an issue, try again later"
+    //   });
+    // }
   }
 
   usernameChanged(event) {
@@ -73,9 +66,18 @@ export default class Login extends Component {
       <p>{this.state.errorMessage}</p>
     ) : null;
 
+    const {
+      isAuth,
+      login,
+      createUser,
+      logout
+    } = this.props;
+
+    if(isAuth) {
+      return <Redirect to="/todos" />
+    }
+
     return (
-      <AuthConsumer>
-        {({ isAuth, login, logout }) => (
           <div style={{ marginTop: 50 }}>
             <div className="content-wrapper">
               {errorContainer}
@@ -116,8 +118,6 @@ export default class Login extends Component {
               </form>
             </div>
           </div>
-        )}
-      </AuthConsumer>
     );
   }
 }
